@@ -45,10 +45,19 @@ public class JavaWebServer
 	{ 
 
 		ServerSocket socket = null;
+		final Socket server = new Socket(host,port);
+		
 		try
 		{
-		
+			
+
+		    
 			socket = new ServerSocket(8081);
+			
+			ServerConn sc = new ServerConn(server);
+		    Thread t = new Thread(sc);
+		    t.start();
+			
 			
 	  		while (true) 
 	  		{ 
@@ -58,7 +67,7 @@ public class JavaWebServer
 	  				//@Override 
 	  				public void run() 
 	  				{ 
-	  					HandleRequest(connection);
+	  					HandleRequest(connection, server);
 	  				} 
 	  			};
 				fThreadPool.execute(task);
@@ -81,20 +90,13 @@ public class JavaWebServer
     }
    
 
-	private static void HandleRequest(Socket s) 
+	private static void HandleRequest(Socket s, Socket server) 
 	{ 
 		BufferedReader inHTTP;
 		PrintWriter outHTTP;
 		String request;
 
-		Socket server = null;
 
-	    try {
-	        server = new Socket(host, port);
-	    } catch (IOException e) {
-	        System.err.println(e);
-	        System.exit(1);
-	    }
 	    
 	    /* obtain an output stream to the server... */
 	    
@@ -124,9 +126,7 @@ public class JavaWebServer
 		    BufferedReader in = new BufferedReader(new InputStreamReader(
 		                server.getInputStream()));
 
-		    ServerConn sc = new ServerConn(server);
-		    Thread t = new Thread(sc);
-		    t.start();
+		    
  			
  			
  			String webServerAddress = s.getInetAddress().toString();
@@ -188,10 +188,18 @@ public class JavaWebServer
  		          
 					decodeParms(postLine, parms);
 					
-					//guardar(parms);
-					String name = parms.getProperty("Name");
-					//System.out.println(name);
-					out.println("NICK " + name);
+					String name = parms.getProperty("username");
+					String dest = parms.getProperty("dest");
+					String msg = parms.getProperty("msg");
+					if (name != null)
+		 			{
+						out.println("NICK " + name);
+		 			}
+					else if (dest != null && msg != null){
+						out.println("MSG "+ dest +" " + msg);
+		 			}
+					
+					
  		    }
  	        
  	        
@@ -239,9 +247,12 @@ public class JavaWebServer
  			{*/
  			if (uri.equals("/"))
  			{
- 				out.println("HTTP/1.1 200 OK");
- 				out.println("Content-Type: text/html\n");
- 				InputStream archivo = new FileInputStream ("form.html");
+ 				InputStream archivo = new FileInputStream ("login.html");
+ 	 			String form = IOUtils.toString(archivo, "UTF-8");
+ 				outHTTP.println(form);
+ 			}
+ 			else if (uri.equals("/mensajes")){
+ 				InputStream archivo = new FileInputStream ("msg.html");
  	 			String form = IOUtils.toString(archivo, "UTF-8");
  				outHTTP.println(form);
  			}
