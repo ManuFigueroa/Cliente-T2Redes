@@ -130,7 +130,6 @@ public class JavaWebServer
  			
  			
  			String webServerAddress = s.getInetAddress().toString();
- 			System.out.println("New Connection:" + webServerAddress);
  			inHTTP = new BufferedReader(new InputStreamReader(s.getInputStream()));
  			
  			request = inHTTP.readLine();
@@ -200,11 +199,11 @@ public class JavaWebServer
 		 			}
 					
 					
+					
  		    }
  	        
  	        
  			
- 			System.out.println("--- Client request: " + request);
 
  			outHTTP = new PrintWriter(s.getOutputStream(), true);
  			
@@ -245,6 +244,7 @@ public class JavaWebServer
  			}
  			else if (uri.equals("/ingresar"))
  			{*/
+ 			
  			if (uri.equals("/"))
  			{
  				InputStream archivo = new FileInputStream ("login.html");
