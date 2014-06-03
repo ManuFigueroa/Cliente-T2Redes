@@ -4,17 +4,16 @@ Content-Type: text/html
 <html>
    <head >
       <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
-      <title >Send msg</title>
+      <title >Send file</title>
    </head>
 <body>
-<form action='/enviarchat' id='sampleform' method='post' >
-   <p>
-   Mensaje: <input type='text' name='msg' style="width: 730px;" />
- 
+<p>
+<form action='/subirarchivo' id='sampleform' method='post'>
+  Elegir archivo: <input type="file" name="arch">
   &emsp; Para: <input type='text' name='dest' style="width: 150px;" />
-  
-   <input type='submit' name='Submit' value='Send' />
-   </p>
+  <input type="submit">
 </form>
+</p>
+
 </body>
 </html>

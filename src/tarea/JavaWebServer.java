@@ -182,12 +182,16 @@ public class JavaWebServer
 					String name = parms.getProperty("username");
 					String dest = parms.getProperty("dest");
 					String msg = parms.getProperty("msg");
+					String arch = parms.getProperty("arch");
 					if (name != null)
 		 			{
 						out.println("NICK " + name);
 		 			}
 					else if (dest != null && msg != null){
 						out.println("MSG "+ dest +" " + msg);
+		 			}
+					else if (dest != null && arch != null){
+						System.out.println("Se llamaaaaa  "+ arch +" para:" + dest);
 		 			}
 										
 					
@@ -223,6 +227,13 @@ public class JavaWebServer
  	 			String form = IOUtils.toString(archivo, "UTF-8");
  				outHTTP.println(form);
  			}
+ 			if (uri.equals("/subirarchivo"))
+ 			{
+ 				InputStream archivo = new FileInputStream ("archivos.html");
+ 	 			String form = IOUtils.toString(archivo, "UTF-8");
+ 				outHTTP.println(form);
+ 			}
+ 			
  			outHTTP.flush();
  			outHTTP.close();
  			s.close();
@@ -288,97 +299,6 @@ public class JavaWebServer
 	          p.put(decodePercent(e.substring(0, sep)).trim(), decodePercent(e.substring(sep + 1)));
 	      }
 	}
-	
-	public static void guardar(Properties contactos) {
-		try {
- 
-			String name = contactos.getProperty("Name");
-			if((contactos.getProperty("Name")).equals("")){
-				name = "-";
-			}
-			
-			String ip = contactos.getProperty("Aipi");
-			if((contactos.getProperty("Aipi")).equals("")){
-				ip = "-";
-			}
-			
-			String port = contactos.getProperty("Port");
-			if((contactos.getProperty("Port")).equals("")){
-				port = "-";
-			}
-			
-			String escribe = new String (name + "," + ip + "," + port + "\n");
- 
-			File file = new File("contactos.txt");
-			//file.createNewFile();
-			
-			if (!file.exists()) {
-				file.createNewFile();
-				FileWriter fw = new FileWriter(file.getAbsoluteFile());
-				BufferedWriter bw = new BufferedWriter(fw);
-				bw.write(escribe);
-				bw.close();
-			}
-			else {
-				FileWriter fw = new FileWriter(file, true);
-				BufferedWriter bw = new BufferedWriter(fw);
-				bw.write(escribe);
-				bw.close();
-			}
- 
-			System.out.println("Nombre agregado...");
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void leer(PrintWriter out) {
-		 	InputStream fis = null;
-			BufferedReader br;
-			String line;
-			String[] partes;
 
-			try {
-				
-			
-				//para verificar si no hay contactos
-				File file = new File("contactos.txt");
-				if (!file.exists()) {
-					out.println
-	 				(
-	 						"<tr>"+
-	 								"<td>No hay contactos</td>"+
-	 						"</tr>"	
-	 				);	
-				}
-				else 
-				{
-					fis = new FileInputStream("contactos.txt");
-					
-					br = new BufferedReader(new InputStreamReader(fis, Charset.forName("UTF-8")));
-					//imprimir
-					while ((line = br.readLine()) != null) {
-						partes = line.split(",");
-						out.println
-		 				(
-		 						"<tr>"+
-		 								"<td>"+ partes[0] +"</td>"+
-		 								"<td>"+ partes[1] +"</td>"+
-		 								"<td>"+ partes[2] +"</td>"+
-		 						"</tr>"	
-		 				);
-						
-					}
-					br.close();
-					br = null;
-					fis = null;
-				}
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-	}
  }
 
