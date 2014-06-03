@@ -12,12 +12,15 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.URISyntaxException;
+//import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.awt.Desktop;
+import java.net.URI;
 
 import org.apache.commons.io.IOUtils;
 
@@ -28,9 +31,9 @@ public class JavaWebServer
 	private static int port = 8080; /* port to connect to */
 	private static String host = "localhost"; /* host to connect to */
 	
-	private static BufferedReader stdIn;
+	//private static BufferedReader stdIn;
 
-	private static String nick;
+	//private static String nick;
 
 	/**
 	 * Read in a nickname from stdin and attempt to authenticate with the 
@@ -48,8 +51,16 @@ public class JavaWebServer
 		try
 		{
 		
-			socket = new ServerSocket(8081);
+			int puerto = 8081;
+			socket = new ServerSocket(puerto);
 			
+
+		    if(Desktop.isDesktopSupported())
+		    {
+		    	System.out.println("blalala entre");
+		    	Desktop.getDesktop().browse(new URI("http://"+host+":"+Integer.toString(puerto)));
+		    }
+		    
 	  		while (true) 
 	  		{ 
 	  			final Socket connection = socket.accept();
@@ -66,6 +77,8 @@ public class JavaWebServer
 		}
 		catch (IOException e)
 		{			
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -98,36 +111,19 @@ public class JavaWebServer
 	    
 	    /* obtain an output stream to the server... */
 	    
-	    
-	    
-	    
-	    
-
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
  		try 
  		{
  			 	
  			PrintWriter out = new PrintWriter(server.getOutputStream(), true);
  			
 		    /* ... and an input stream */
-		    BufferedReader in = new BufferedReader(new InputStreamReader(
-		                server.getInputStream()));
+ 			
+		    //BufferedReader in = new BufferedReader(new InputStreamReader(
+		    //            server.getInputStream()));
 
 		    ServerConn sc = new ServerConn(server);
 		    Thread t = new Thread(sc);
 		    t.start();
- 			
  			
  			String webServerAddress = s.getInetAddress().toString();
  			System.out.println("New Connection:" + webServerAddress);
@@ -241,7 +237,23 @@ public class JavaWebServer
  			{
  				out.println("HTTP/1.1 200 OK");
  				out.println("Content-Type: text/html\n");
- 				InputStream archivo = new FileInputStream ("form.html");
+ 				InputStream archivo = new FileInputStream ("chat.html");
+ 	 			String form = IOUtils.toString(archivo, "UTF-8");
+ 				outHTTP.println(form);
+ 			}
+ 			if (uri.equals("/textochat"))
+ 			{
+ 				out.println("HTTP/1.1 200 OK");
+ 				out.println("Content-Type: text/html\n");
+ 				InputStream archivo = new FileInputStream ("subchat.html");
+ 	 			String form = IOUtils.toString(archivo, "UTF-8");
+ 				outHTTP.println(form);
+ 			}
+ 			if (uri.equals("/enviarchat"))
+ 			{
+ 				out.println("HTTP/1.1 200 OK");
+ 				out.println("Content-Type: text/html\n");
+ 				InputStream archivo = new FileInputStream ("enviar.html");
  	 			String form = IOUtils.toString(archivo, "UTF-8");
  				outHTTP.println(form);
  			}
