@@ -31,7 +31,7 @@ public class JavaWebServer
 	private static final int fNumberOfThreads = 100;
 	private static final Executor fThreadPool = Executors.newFixedThreadPool(fNumberOfThreads);
 	private static int port = 8080; /* port to connect to */
-	private static String host = "localhost"; /* host to connect to */
+	private static String host = "192.168.1.168"; /* host to connect to */
 	
 	private static BufferedReader stdIn;
 
@@ -61,7 +61,7 @@ public class JavaWebServer
 
 		    if(Desktop.isDesktopSupported())
 		    {
-		    	Desktop.getDesktop().browse(new URI("http://"+host+":"+Integer.toString(puerto)));
+		    	Desktop.getDesktop().browse(new URI("http://localhost:"+Integer.toString(puerto)));
 		    }
 
 			
