@@ -65,9 +65,9 @@ public class JavaWebServer
 		    }
 
 			
-			ServerConn sc = new ServerConn(server);
-		    Thread t = new Thread(sc);
-		    t.start();
+			//ServerConn sc = new ServerConn(server);
+		    //Thread t = new Thread(sc);
+		    //t.start();
 			
 			
 	  		while (true) 
@@ -121,7 +121,7 @@ public class JavaWebServer
 		                server.getInputStream()));
 
 		    			
- 			String webServerAddress = s.getInetAddress().toString();
+ 			//String webServerAddress = s.getInetAddress().toString();
  			inHTTP = new BufferedReader(new InputStreamReader(s.getInputStream()));
  			
  			request = inHTTP.readLine();
@@ -189,7 +189,7 @@ public class JavaWebServer
 					else if (dest != null && msg != null){
 						out.println("MSG "+ dest +" " + msg);
 		 			}
-					
+										
 					
  		    }
  	        
@@ -210,7 +210,7 @@ public class JavaWebServer
  			{
  				out.println("PEDIR mensajes");
  				
- 				String entremedio = "blo";
+ 				String entremedio = in.readLine();
  				
  				InputStream archivo = new FileInputStream ("subchat.html");
  	 			String form = IOUtils.toString(archivo, "UTF-8");
