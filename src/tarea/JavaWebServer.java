@@ -108,27 +108,8 @@ public class JavaWebServer
 		BufferedReader inHTTP;
 		PrintWriter outHTTP;
 		String request;
-
-
-	    
-	    /* obtain an output stream to the server... */
-	    
-	    
-	    
-	    
-	    
-
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    
+    
+	    /* obtain an output stream to the server... */    
 	    
  		try 
  		{
@@ -139,9 +120,7 @@ public class JavaWebServer
 		    BufferedReader in = new BufferedReader(new InputStreamReader(
 		                server.getInputStream()));
 
-		    
- 			
- 			
+		    			
  			String webServerAddress = s.getInetAddress().toString();
  			inHTTP = new BufferedReader(new InputStreamReader(s.getInputStream()));
  			
@@ -212,7 +191,6 @@ public class JavaWebServer
 		 			}
 					
 					
-					
  		    }
  	        
  			outHTTP = new PrintWriter(s.getOutputStream(), true);
@@ -230,8 +208,13 @@ public class JavaWebServer
  			}
  			if (uri.equals("/textochat"))
  			{
+ 				out.println("PEDIR mensajes");
+ 				
+ 				String entremedio = "blo";
+ 				
  				InputStream archivo = new FileInputStream ("subchat.html");
  	 			String form = IOUtils.toString(archivo, "UTF-8");
+ 	 			form = form.replace("#REEMPLAZAR#", entremedio);
  				outHTTP.println(form);
  			}
  			if (uri.equals("/enviarchat"))
