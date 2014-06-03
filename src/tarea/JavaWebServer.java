@@ -12,12 +12,17 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.URISyntaxException;
+//import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.awt.Desktop;
+import java.net.URI;
+
+
 
 import org.apache.commons.io.IOUtils;
 
@@ -50,9 +55,15 @@ public class JavaWebServer
 		try
 		{
 			
+			int puerto = 8081;
+			socket = new ServerSocket(puerto);
+			
 
-		    
-			socket = new ServerSocket(8081);
+		    if(Desktop.isDesktopSupported())
+		    {
+		    	Desktop.getDesktop().browse(new URI("http://"+host+":"+Integer.toString(puerto)));
+		    }
+
 			
 			ServerConn sc = new ServerConn(server);
 		    Thread t = new Thread(sc);
@@ -75,6 +86,8 @@ public class JavaWebServer
 		}
 		catch (IOException e)
 		{			
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
 		}
 		finally
 		{
@@ -202,56 +215,31 @@ public class JavaWebServer
 					
  		    }
  	        
- 	        
- 			
-
  			outHTTP = new PrintWriter(s.getOutputStream(), true);
- 			
- 			//el metodo es GET
- 			/*if (uri.equals("/"))
- 			{	
- 				outHTTP.println("HTTP/1.1 200 OK");
- 				outHTTP.println("Content-Type: text/html\n");
- 				outHTTP.println
- 				(
- 						"<html>"+
- 								"<head >"+
- 									"<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>"+
- 									"<title>Contactos</title>"+
- 								"</head>"+
- 						"<body>"+
- 						"<center>"+
- 						"<h1>Contactos</h1>"+
- 						"<table style = \"width:300px\" border= \"1\" align= \"center\" "+
- 							"<tr>"+
- 								"<td>Nombre</td>"+
- 								"<td>IP</td>"+
- 								"<td>Puerto</td>"+
- 							"</tr>"						
- 				);
- 				leer(outHTTP);
- 				outHTTP.println
- 				(
- 						"</table>"+
- 						"<form action= '/ingresar'>"+
- 					    "<input type='submit' value='Agregar Contacto'>"+
- 					    "</form>"+
- 						"</center>"+
- 						"</body>"+
- 						"</html>"
- 				);		
- 				
- 			}
- 			else if (uri.equals("/ingresar"))
- 			{*/
- 			
+ 		 			
  			if (uri.equals("/"))
  			{
  				InputStream archivo = new FileInputStream ("login.html");
  	 			String form = IOUtils.toString(archivo, "UTF-8");
  				outHTTP.println(form);
  			}
- 			else if (uri.equals("/mensajes")){
+ 			else if (uri.equals("/chat")){
+ 				InputStream archivo = new FileInputStream ("chat.html");
+ 	 			String form = IOUtils.toString(archivo, "UTF-8");
+ 				outHTTP.println(form);
+ 			}
+ 			if (uri.equals("/textochat"))
+ 			{
+ 				out.println("HTTP/1.1 200 OK");
+ 				out.println("Content-Type: text/html\n");
+ 				InputStream archivo = new FileInputStream ("subchat.html");
+ 	 			String form = IOUtils.toString(archivo, "UTF-8");
+ 				outHTTP.println(form);
+ 			}
+ 			if (uri.equals("/enviarchat"))
+ 			{
+ 				out.println("HTTP/1.1 200 OK");
+ 				out.println("Content-Type: text/html\n");
  				InputStream archivo = new FileInputStream ("msg.html");
  	 			String form = IOUtils.toString(archivo, "UTF-8");
  				outHTTP.println(form);
@@ -281,13 +269,6 @@ public class JavaWebServer
  			} 
  		} 
  		return;
- 		
- 		
- 		
- 		
- 		
- 		
- 		
  		
  	}
 	

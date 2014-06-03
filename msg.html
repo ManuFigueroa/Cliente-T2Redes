@@ -7,20 +7,14 @@ Content-Type: text/html
       <title >Send msg</title>
    </head>
 <body>
-<center>
-<h1>Please send a message</h1>
+<form action='/enviarchat' id='sampleform' method='post' >
+   <p>
+   Message: <input type='text' name='msg' style="width: 750px;" />
  
-<form action='/mensajes' id='sampleform' method='post' >
-   <p>
-   Message: &emsp;&emsp; <input type='text' name='msg' />
-   </p>
-   <p>
-   To: &emsp;&emsp; <input type='text' name='dest' />
-   </p>
-   <p>
+  &emsp; To: <input type='text' name='dest' style="width: 150px;" />
+  
    <input type='submit' name='Submit' value='Send' />
    </p>
 </form>
-</center>
 </body>
 </html>
