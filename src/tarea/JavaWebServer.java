@@ -230,16 +230,12 @@ public class JavaWebServer
  			}
  			if (uri.equals("/textochat"))
  			{
- 				out.println("HTTP/1.1 200 OK");
- 				out.println("Content-Type: text/html\n");
  				InputStream archivo = new FileInputStream ("subchat.html");
  	 			String form = IOUtils.toString(archivo, "UTF-8");
  				outHTTP.println(form);
  			}
  			if (uri.equals("/enviarchat"))
  			{
- 				out.println("HTTP/1.1 200 OK");
- 				out.println("Content-Type: text/html\n");
  				InputStream archivo = new FileInputStream ("msg.html");
  	 			String form = IOUtils.toString(archivo, "UTF-8");
  				outHTTP.println(form);
