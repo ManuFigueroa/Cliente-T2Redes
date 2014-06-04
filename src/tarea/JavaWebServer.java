@@ -6,6 +6,7 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 //import java.io.BufferedWriter;
 //import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 //import java.io.FileWriter;
@@ -82,7 +83,7 @@ public class JavaWebServer
 	  				public void run() 
 	  				{ 
 	  					
-	  					//System.out.println("Socket : "+ server );
+	  					System.out.println("Socket : "+ server );
 	  					HandleRequest(connection, server);
 	  				} 
 	  			};
@@ -206,18 +207,12 @@ public class JavaWebServer
 						 //Fichero a transferir						 
 						try{
 
-						 final File localFile = new File(arch);
-
-						 @SuppressWarnings("resource")
-						 Socket bla = new Socket(host,port);
-
+						 final File localFile = new File( arch );
 						 bis = new BufferedInputStream(new FileInputStream(localFile));
-						 bos = new BufferedOutputStream(bla.getOutputStream());
-						 PrintWriter pwout = new PrintWriter(bla.getOutputStream(), true);
-						 pwout.println("#arch " + dest + " "+ arch);
+						 bos = new BufferedOutputStream(server.getOutputStream());
 						 //Enviamos el nombre del fichero
-						 //DataOutputStream dos=new DataOutputStream(server.getOutputStream());
-						 //dos.writeUTF(localFile.getName());
+						 DataOutputStream dos=new DataOutputStream(server.getOutputStream());
+						 dos.writeUTF(localFile.getName());
 						 //Enviamos el fichero
 						 byteArray = new byte[8192];
 						 while ((in1 = bis.read(byteArray)) != -1){
@@ -226,21 +221,18 @@ public class JavaWebServer
 						 }
 
 						bis.close();
-						//out.println("Cerre bis");
 						bos.close();
-						
-						//System.out.println("Cerre bos");
+
 						}catch ( Exception e ) {
 							 System.err.println(e);
 							
 						}
 						
-						//System.out.println("Se llamaaaaa  "+ arch +" para:" + dest);
+						System.out.println("Se llamaaaaa  "+ arch +" para:" + dest);
 		 			}										
 					
  		    }
  	        
- 			
  			outHTTP = new PrintWriter(s.getOutputStream(), true);
  		 			
  			if (uri.equals("/"))
