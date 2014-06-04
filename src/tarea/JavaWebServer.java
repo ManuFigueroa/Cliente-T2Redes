@@ -1,8 +1,12 @@
 package tarea;
 
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -24,14 +28,18 @@ import java.net.URI;
 
 
 
+
+
+
+
 import org.apache.commons.io.IOUtils;
 
 public class JavaWebServer 
 {   
 	private static final int fNumberOfThreads = 100;
 	private static final Executor fThreadPool = Executors.newFixedThreadPool(fNumberOfThreads);
-	private static int port = 8080; /* port to connect to */
-	private static String host = "localhost"; /* host to connect to */
+	private static int port = 8080; /* port to connect to  TCP*/
+	private static String host = "192.168.1.168"; /* host to connect to TCP */
 	
 	private static BufferedReader stdIn;
 
@@ -191,9 +199,34 @@ public class JavaWebServer
 						out.println("MSG "+ dest +" " + msg);
 		 			}
 					else if (dest != null && arch != null){
+						out.println("FILE "+ dest +" " + arch);
+						 //DataInputStream input;
+						 BufferedInputStream bis;
+						 BufferedOutputStream bos;
+						 int in1;
+						 byte[] byteArray;
+						 //Fichero a transferir						 
+						try{
+						 final File localFile = new File( arch );
+						 bis = new BufferedInputStream(new FileInputStream(localFile));
+						 bos = new BufferedOutputStream(server.getOutputStream());
+						 //Enviamos el nombre del fichero
+						 DataOutputStream dos=new DataOutputStream(server.getOutputStream());
+						 dos.writeUTF(localFile.getName());
+						 //Enviamos el fichero
+						 byteArray = new byte[8192];
+						 while ((in1 = bis.read(byteArray)) != -1){
+						 bos.write(byteArray,0,in1);
+						 }
+						bis.close();
+						bos.close();
+						}catch ( Exception e ) {
+							 System.err.println(e);
+							
+						}
+						
 						System.out.println("Se llamaaaaa  "+ arch +" para:" + dest);
-		 			}
-										
+		 			}										
 					
  		    }
  	        
