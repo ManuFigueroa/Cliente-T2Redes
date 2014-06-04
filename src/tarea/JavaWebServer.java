@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URISyntaxException;
-import java.net.UnknownHostException;
+//import java.net.UnknownHostException;
 //import java.net.UnknownHostException;
 //import java.nio.charset.Charset;
 import java.util.Properties;
@@ -26,13 +26,6 @@ import java.util.concurrent.Executors;
 import java.awt.Desktop;
 import java.net.URI;
 
-
-
-
-
-
-
-
 import org.apache.commons.io.IOUtils;
 
 public class JavaWebServer 
@@ -40,11 +33,8 @@ public class JavaWebServer
 	private static final int fNumberOfThreads = 100;
 	private static final Executor fThreadPool = Executors.newFixedThreadPool(fNumberOfThreads);
 	private static int port = 8080; /* port to connect to  TCP*/
-<<<<<<< HEAD
 	private static String host = "localhost"; /* host to connect to TCP */
-=======
-	private static String host = "192.168.1.161"; /* host to connect to TCP */
->>>>>>> FETCH_HEAD
+
 	
 	//private static BufferedReader stdIn;
 
@@ -215,13 +205,12 @@ public class JavaWebServer
 						 byte[] byteArray;
 						 //Fichero a transferir						 
 						try{
-<<<<<<< HEAD
+
 						 final File localFile = new File(arch);
-=======
-						 final File localFile = new File( arch );
+
 						 @SuppressWarnings("resource")
 						 Socket bla = new Socket(host,port);
->>>>>>> FETCH_HEAD
+
 						 bis = new BufferedInputStream(new FileInputStream(localFile));
 						 bos = new BufferedOutputStream(bla.getOutputStream());
 						 //Enviamos el nombre del fichero
@@ -232,28 +221,13 @@ public class JavaWebServer
 						 while ((in1 = bis.read(byteArray)) != -1){
 						 bos.write(byteArray,0,in1);
 						 }
-<<<<<<< HEAD
-						 if(server.isClosed()){
-							System.out.println("ANTES DE CERRAR");
-						 }
-						 
-=======
-						
->>>>>>> FETCH_HEAD
+
 						bis.close();
 						//out.println("Cerre bis");
 						bos.close();
-<<<<<<< HEAD
-						if(server.isClosed()){
-							System.out.println("DPS DE CERRAR");
-						}
-						 
-						 
-=======
 						//System.out.println("Cerre bos");
 						//dos.close();
 						//out.println("Cerre dos");
->>>>>>> FETCH_HEAD
 						}catch ( Exception e ) {
 							 System.err.println(e);
 							
