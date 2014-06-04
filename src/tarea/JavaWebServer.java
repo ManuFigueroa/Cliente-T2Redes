@@ -4,12 +4,12 @@ package tarea;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.DataInputStream;
+//import java.io.BufferedWriter;
+//import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
+//import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,7 +18,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URISyntaxException;
 //import java.net.UnknownHostException;
-import java.nio.charset.Charset;
+//import java.nio.charset.Charset;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.concurrent.Executor;
@@ -41,9 +41,9 @@ public class JavaWebServer
 	private static int port = 8080; /* port to connect to  TCP*/
 	private static String host = "192.168.1.168"; /* host to connect to TCP */
 	
-	private static BufferedReader stdIn;
+	//private static BufferedReader stdIn;
 
-	private static String nick;
+	//private static String nick;
 
 	/**
 	 * Read in a nickname from stdin and attempt to authenticate with the 
@@ -86,6 +86,8 @@ public class JavaWebServer
 	  				//@Override 
 	  				public void run() 
 	  				{ 
+	  					
+	  					System.out.println("Socket : "+ server );
 	  					HandleRequest(connection, server);
 	  				} 
 	  			};
@@ -116,6 +118,7 @@ public class JavaWebServer
 		BufferedReader inHTTP;
 		PrintWriter outHTTP;
 		String request;
+		
     
 	    /* obtain an output stream to the server... */    
 	    
@@ -127,7 +130,6 @@ public class JavaWebServer
 		    /* ... and an input stream */
 		    BufferedReader in = new BufferedReader(new InputStreamReader(
 		                server.getInputStream()));
-
 		    			
  			//String webServerAddress = s.getInetAddress().toString();
  			inHTTP = new BufferedReader(new InputStreamReader(s.getInputStream()));
@@ -201,8 +203,9 @@ public class JavaWebServer
 					else if (dest != null && arch != null){
 						out.println("FILE "+ dest +" " + arch);
 						 //DataInputStream input;
-						 BufferedInputStream bis;
-						 BufferedOutputStream bos;
+						BufferedInputStream bis;
+						BufferedOutputStream bos;
+						
 						 int in1;
 						 byte[] byteArray;
 						 //Fichero a transferir						 
@@ -218,8 +221,13 @@ public class JavaWebServer
 						 while ((in1 = bis.read(byteArray)) != -1){
 						 bos.write(byteArray,0,in1);
 						 }
+						
 						bis.close();
+						out.println("Cerre bis");
 						bos.close();
+						System.out.println("Cerre bos");
+						//dos.close();
+						//out.println("Cerre dos");
 						}catch ( Exception e ) {
 							 System.err.println(e);
 							
@@ -239,12 +247,14 @@ public class JavaWebServer
  				outHTTP.println(form);
  			}
  			else if (uri.equals("/chat")){
+ 				//System.out.println("cargue: "+uri );
  				InputStream archivo = new FileInputStream ("chat.html");
  	 			String form = IOUtils.toString(archivo, "UTF-8");
  				outHTTP.println(form);
  			}
  			if (uri.equals("/textochat"))
  			{
+ 				//System.out.println("cargue: "+uri );
  				out.println("PEDIR mensajes");
  				
  				String entremedio = in.readLine();
@@ -256,12 +266,16 @@ public class JavaWebServer
  			}
  			if (uri.equals("/enviarchat"))
  			{
+ 				//System.out.println("cargue: "+uri );
+ 				
  				InputStream archivo = new FileInputStream ("msg.html");
  	 			String form = IOUtils.toString(archivo, "UTF-8");
  				outHTTP.println(form);
  			}
  			if (uri.equals("/subirarchivo"))
  			{
+ 				//System.out.println("cargue: "+uri );
+ 				
  				InputStream archivo = new FileInputStream ("archivos.html");
  	 			String form = IOUtils.toString(archivo, "UTF-8");
  				outHTTP.println(form);
