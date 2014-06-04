@@ -213,21 +213,23 @@ public class JavaWebServer
 
 						 bis = new BufferedInputStream(new FileInputStream(localFile));
 						 bos = new BufferedOutputStream(bla.getOutputStream());
+						 PrintWriter pwout = new PrintWriter(bla.getOutputStream(), true);
+						 pwout.println("#arch " + dest + " "+ arch);
 						 //Enviamos el nombre del fichero
 						 //DataOutputStream dos=new DataOutputStream(server.getOutputStream());
 						 //dos.writeUTF(localFile.getName());
 						 //Enviamos el fichero
 						 byteArray = new byte[8192];
 						 while ((in1 = bis.read(byteArray)) != -1){
+						 System.out.println("paso");
 						 bos.write(byteArray,0,in1);
 						 }
 
 						bis.close();
 						//out.println("Cerre bis");
 						bos.close();
+						
 						//System.out.println("Cerre bos");
-						//dos.close();
-						//out.println("Cerre dos");
 						}catch ( Exception e ) {
 							 System.err.println(e);
 							
