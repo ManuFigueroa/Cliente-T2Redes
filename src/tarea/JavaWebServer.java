@@ -6,7 +6,6 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 //import java.io.BufferedWriter;
 //import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 //import java.io.FileWriter;
@@ -32,6 +31,7 @@ import java.net.URI;
 
 
 
+
 import org.apache.commons.io.IOUtils;
 
 public class JavaWebServer 
@@ -39,7 +39,7 @@ public class JavaWebServer
 	private static final int fNumberOfThreads = 100;
 	private static final Executor fThreadPool = Executors.newFixedThreadPool(fNumberOfThreads);
 	private static int port = 8080; /* port to connect to  TCP*/
-	private static String host = "192.168.1.168"; /* host to connect to TCP */
+	private static String host = "192.168.1.161"; /* host to connect to TCP */
 	
 	//private static BufferedReader stdIn;
 
@@ -87,7 +87,7 @@ public class JavaWebServer
 	  				public void run() 
 	  				{ 
 	  					
-	  					System.out.println("Socket : "+ server );
+	  					//System.out.println("Socket : "+ server );
 	  					HandleRequest(connection, server);
 	  				} 
 	  			};
@@ -211,11 +211,13 @@ public class JavaWebServer
 						 //Fichero a transferir						 
 						try{
 						 final File localFile = new File( arch );
+						 @SuppressWarnings("resource")
+						 Socket bla = new Socket(host,port);
 						 bis = new BufferedInputStream(new FileInputStream(localFile));
-						 bos = new BufferedOutputStream(server.getOutputStream());
+						 bos = new BufferedOutputStream(bla.getOutputStream());
 						 //Enviamos el nombre del fichero
-						 DataOutputStream dos=new DataOutputStream(server.getOutputStream());
-						 dos.writeUTF(localFile.getName());
+						 //DataOutputStream dos=new DataOutputStream(server.getOutputStream());
+						 //dos.writeUTF(localFile.getName());
 						 //Enviamos el fichero
 						 byteArray = new byte[8192];
 						 while ((in1 = bis.read(byteArray)) != -1){
@@ -223,9 +225,9 @@ public class JavaWebServer
 						 }
 						
 						bis.close();
-						out.println("Cerre bis");
+						//out.println("Cerre bis");
 						bos.close();
-						System.out.println("Cerre bos");
+						//System.out.println("Cerre bos");
 						//dos.close();
 						//out.println("Cerre dos");
 						}catch ( Exception e ) {
@@ -233,11 +235,12 @@ public class JavaWebServer
 							
 						}
 						
-						System.out.println("Se llamaaaaa  "+ arch +" para:" + dest);
+						//System.out.println("Se llamaaaaa  "+ arch +" para:" + dest);
 		 			}										
 					
  		    }
  	        
+ 			
  			outHTTP = new PrintWriter(s.getOutputStream(), true);
  		 			
  			if (uri.equals("/"))
