@@ -17,6 +17,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URISyntaxException;
+import java.net.UnknownHostException;
 //import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.util.Properties;
@@ -32,6 +33,7 @@ import java.net.URI;
 
 
 
+
 import org.apache.commons.io.IOUtils;
 
 public class JavaWebServer 
@@ -39,7 +41,7 @@ public class JavaWebServer
 	private static final int fNumberOfThreads = 100;
 	private static final Executor fThreadPool = Executors.newFixedThreadPool(fNumberOfThreads);
 	private static int port = 8080; /* port to connect to  TCP*/
-	private static String host = "192.168.1.168"; /* host to connect to TCP */
+	private static String host = "localhost"; /* host to connect to TCP */
 	
 	private static BufferedReader stdIn;
 
@@ -207,7 +209,7 @@ public class JavaWebServer
 						 byte[] byteArray;
 						 //Fichero a transferir						 
 						try{
-						 final File localFile = new File( arch );
+						 final File localFile = new File(arch);
 						 bis = new BufferedInputStream(new FileInputStream(localFile));
 						 bos = new BufferedOutputStream(server.getOutputStream());
 						 //Enviamos el nombre del fichero
@@ -218,8 +220,17 @@ public class JavaWebServer
 						 while ((in1 = bis.read(byteArray)) != -1){
 						 bos.write(byteArray,0,in1);
 						 }
+						 if(server.isClosed()){
+							System.out.println("ANTES DE CERRAR");
+						 }
+						 
 						bis.close();
 						bos.close();
+						if(server.isClosed()){
+							System.out.println("DPS DE CERRAR");
+						}
+						 
+						 
 						}catch ( Exception e ) {
 							 System.err.println(e);
 							
