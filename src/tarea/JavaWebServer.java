@@ -207,15 +207,8 @@ public class JavaWebServer
 						try{
 
 						 final File localFile = new File(arch);
-
-						 @SuppressWarnings("resource")
-						 Socket bla = new Socket(host,port);
-
 						 bis = new BufferedInputStream(new FileInputStream(localFile));
-						 bos = new BufferedOutputStream(bla.getOutputStream());
-						 //Enviamos el nombre del fichero
-						 //DataOutputStream dos=new DataOutputStream(server.getOutputStream());
-						 //dos.writeUTF(localFile.getName());
+						 bos = new BufferedOutputStream(server.getOutputStream());
 						 //Enviamos el fichero
 						 byteArray = new byte[8192];
 						 while ((in1 = bis.read(byteArray)) != -1){
@@ -223,11 +216,8 @@ public class JavaWebServer
 						 }
 
 						bis.close();
-						//out.println("Cerre bis");
 						bos.close();
-						//System.out.println("Cerre bos");
-						//dos.close();
-						//out.println("Cerre dos");
+
 						}catch ( Exception e ) {
 							 System.err.println(e);
 							
