@@ -207,9 +207,11 @@ public class JavaWebServer
 						 //Fichero a transferir						 
 						try{
 
-						 final File localFile = new File( arch );
+						 final File localFile = new File(arch);
 						 bis = new BufferedInputStream(new FileInputStream(localFile));
+
 						 bos = new BufferedOutputStream(server.getOutputStream());						
+
 						 //Enviamos el fichero
 						 byteArray = new byte[8192];
 						 while ((in1 = bis.read(byteArray)) != -1){
