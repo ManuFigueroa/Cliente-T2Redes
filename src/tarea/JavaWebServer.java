@@ -6,6 +6,7 @@ import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 //import java.io.BufferedWriter;
 //import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 //import java.io.FileWriter;
@@ -82,7 +83,7 @@ public class JavaWebServer
 	  				public void run() 
 	  				{ 
 	  					
-	  					//System.out.println("Socket : "+ server );
+	  					System.out.println("Socket : "+ server );
 	  					HandleRequest(connection, server);
 	  				} 
 	  			};
@@ -206,15 +207,26 @@ public class JavaWebServer
 						 //Fichero a transferir						 
 						try{
 
+<<<<<<< HEAD
 						 final File localFile = new File(arch);
 						 bis = new BufferedInputStream(new FileInputStream(localFile));
 						 bos = new BufferedOutputStream(server.getOutputStream());
+=======
+						 final File localFile = new File( arch );
+						 bis = new BufferedInputStream(new FileInputStream(localFile));
+						 bos = new BufferedOutputStream(server.getOutputStream());
+						 //Enviamos el nombre del fichero
+						 DataOutputStream dos=new DataOutputStream(server.getOutputStream());
+						 dos.writeUTF(localFile.getName());
+>>>>>>> FETCH_HEAD
 						 //Enviamos el fichero
 						 byteArray = new byte[8192];
 						 while ((in1 = bis.read(byteArray)) != -1){
+						 System.out.println("paso");
 						 bos.write(byteArray,0,in1);
 						 }
-
+						byte[] STOP = "</COMMS>".getBytes();
+						bos.write(STOP);
 						bis.close();
 						bos.close();
 
@@ -223,12 +235,11 @@ public class JavaWebServer
 							
 						}
 						
-						//System.out.println("Se llamaaaaa  "+ arch +" para:" + dest);
+						System.out.println("Se llamaaaaa  "+ arch +" para:" + dest);
 		 			}										
 					
  		    }
  	        
- 			
  			outHTTP = new PrintWriter(s.getOutputStream(), true);
  		 			
  			if (uri.equals("/"))
