@@ -219,7 +219,8 @@ public class JavaWebServer
 						 System.out.println("paso");
 						 bos.write(byteArray,0,in1);
 						 }
-
+						byte[] STOP = "</COMMS>".getBytes();
+						bos.write(STOP);
 						bis.close();
 						bos.close();
 
