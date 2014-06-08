@@ -59,7 +59,8 @@ public class JavaWebServer
 		try
 		{
 			
-			int puerto = 8081;
+			int puerto = 8081; //Cambiar en caso de querer ejecutar
+							   //dos clientes en un mismo computador
 			socket = new ServerSocket(puerto);
 			
 
